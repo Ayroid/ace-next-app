@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
 import schema from "../schema";
-import { Pridi } from "next/font/google";
 
 interface Props {
   params: {
