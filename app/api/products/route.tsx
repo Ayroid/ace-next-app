@@ -15,7 +15,10 @@ export async function POST(request: NextRequest) {
     return NextResponse.json(validation.error.errors, { status: 400 });
   }
   const data = await prisma.product.create({
-    data: body,
+    data: {
+      name: body.name,
+      price: body.price,
+    },
   });
   return NextResponse.json(data);
 }
