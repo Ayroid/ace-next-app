@@ -1,9 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
 import schema from "../schema";
+import prisma from "@/prisma/client";
 
 interface Props {
   params: {
-    id: number;
+    id: string;
   };
 }
 
@@ -20,10 +21,13 @@ const products = [
   },
 ];
 
-export function GET(request: NextRequest, { params: { id } }: Props) {
-  if (id > products.length)
-    return NextResponse.json({ error: "Product not found" }, { status: 404 });
-  return NextResponse.json(products[id - 1]);
+export async function GET(request: NextRequest, { params: { id } }: Props) {
+  const data = await prisma.product.findUnique({
+    where: {
+      id,
+    },
+  });
+  return NextResponse.json(data);
 }
 
 export async function PUT(request: NextRequest, { params: { id } }: Props) {
@@ -34,19 +38,22 @@ export async function PUT(request: NextRequest, { params: { id } }: Props) {
     return NextResponse.json(validation.error.errors, { status: 400 });
   }
 
-  if (id > products.length)
-    return NextResponse.json({ error: "Product not found" }, { status: 404 });
+  const data = await prisma.product.update({
+    where: {
+      id,
+    },
+    data: body,
+  });
 
-  products[id - 1] = { ...products[id - 1], ...body };
-
-  return NextResponse.json(products);
+  return NextResponse.json(data);
 }
 
 export async function DELETE(request: NextRequest, { params: { id } }: Props) {
-  if (id > products.length)
-    return NextResponse.json({ error: "Product not found" }, { status: 404 });
+  const data = await prisma.product.delete({
+    where: {
+      id,
+    },
+  });
 
-  products.splice(id - 1, 1);
-
-  return NextResponse.json(products);
+  return NextResponse.json(data);
 }
