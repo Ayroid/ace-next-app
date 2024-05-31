@@ -9,14 +9,20 @@ import {
   Tailwind,
 } from "@react-email/components";
 
-const WelcomeTemplate = () => {
+interface Props {
+  name: string;
+}
+
+const WelcomeTemplate = ({ name }: Props) => {
   return (
     <Html>
       <Tailwind>
         <Body className="bg-white font-mono">
           <Preview>This is a preview of the email template.</Preview>
           <Container>
-            <Text className="text-2xl font-bold">Welcome to our app!</Text>
+            <Text className="text-2xl font-bold">
+              Hello {name}! Welcome to our app!
+            </Text>
             <Text>
               We&apos;re excited to have you on board. Please let us know if you
               have any questions.
