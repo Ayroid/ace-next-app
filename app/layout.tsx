@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import Link from "next/link";
+import Navbar from "./components/Navbar";
+import AuthProvider from "./auth/Provider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -18,14 +19,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <header>
-          <nav className="flex gap-5 bg-slate-600 p-5">
-            <Link href="/">Home</Link>
-            <Link href="/products">Products</Link>
-            <Link href="/users">Users</Link>
-            <Link href="/admins">Admins</Link>
-          </nav>
-        </header>
+        <AuthProvider>
+          <Navbar />
+        </AuthProvider>
         <div className="p-5">{children}</div>
       </body>
     </html>
